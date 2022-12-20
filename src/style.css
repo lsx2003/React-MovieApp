@@ -68,9 +68,8 @@ img {
 .header {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
-  height: 90vh;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,10 +77,8 @@ img {
 }
 
 .header img {
-  width: 40vw;
-  height: 40vw;
-  max-height: 350px;
-  max-width: 350px;
+  width: 15vw;
+  height: 18vw;
 }
 
 .title-wrap {
@@ -94,10 +91,12 @@ img {
   margin-right: 0.6%;
   font-size: 5vh;
   animation: neon 1s ease infinite;
+  position: fixed;
 }
 
 /* SCROLL DOWN */
 .scroll-down {
+  text-align: center;
   position: fixed;
   bottom: 2%;
   color: white;
@@ -135,7 +134,16 @@ img {
   }
 }
 
-.select {
-  width: 200px;
-  height: 70px;
+.content {
+  position: absolute;
+  width: 25vw;
+  height: 18vw;
+  left: 60vw;
+  background-color: #f5cd79;
+  color: black;
+  font-size: 1vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
