@@ -1,90 +1,87 @@
 import Card from "../component/Card";
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
+import Loading from "../component/Loading";
 
-const date = new Date().toLocaleDateString();
-const lastDay = date.replaceAll(" ", "").replaceAll(".", "") - 1;
-const url =
-  "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=139c5c77da62dd7e6f039c1ce385dbe1&targetDt=" +
-  `${String(lastDay)}`;
+function CardContaioner() {
+  const [newData, setData] = useState([[1]]);
+  const [poster, setPoster] = useState({});
+  const [title, setTitle] = useState([]); // 1~10위 제목이 들어감
+  const [isLoading, setLoading] = useState(true);
+  const [isSelect, setSelect] = useState(false);
 
-export default function CardContaioner() {
-  const [newData, setData] = useState([]);
+  const getPoster = useCallback(async (el, idx) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/naver/?query=${el}}`
+      );
+      const data = await response.data;
+      await Object.assign(poster, { [(idx = idx)]: data[0].image });
+      await setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const getData = useCallback(async () => {
     try {
-      const response = await axios.get(url);
-      const data = await response.data.boxOfficeResult.dailyBoxOfficeList;
+      const response = await axios.get("http://localhost:4000/kobis");
+      const data = await response.data;
+      console.log("getData");
+      console.log(data);
       setData(data);
     } catch (error) {
       console.log(error);
     }
-  }, [setData]);
+  }, []);
+
+  const getTitle = useCallback(async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/kobis/title");
+      const data = await response.data;
+      console.log("getTitle");
+      getData();
+      setTitle(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   useEffect(() => {
-    getData();
-  }, [getData]);
-  console.log(newData);
+    getTitle();
+  }, []);
+  title.map((el) => {
+    getPoster(el, title.indexOf(el));
+  });
+  setTimeout(() => {
+    setLoading(false);
+  }, 1500);
+
+  const clickHandler = (event) => {
+    if (event.target.className === "wheel__card") {
+      setSelect(true);
+      console.log(isSelect);
+    }
+  };
+
   return (
     <>
+      {isLoading ? <Loading /> : null}
       <div className="header"></div>
       <div className="title-wrap">
         <div className="title">오늘의 영화 순위</div>
       </div>
       <section className="slider-section">
         <div className="wheel">
-          <Card newData={newData}></Card>;
-          {/* 
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          />
-          <Card
-            picture={
-              "https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0e775cb479146a5c95b4596a83f8dfcc64675534264ec5a1dab1a9744809c8f965"
-            }
-          /> */}
+          {isLoading === false ? (
+            <Card
+              isSelect={isSelect}
+              setSelect={setSelect}
+              poster={poster}
+              newData={newData}
+              clickHandler={clickHandler}
+            ></Card>
+          ) : null}
         </div>
       </section>
       <div className="title-wrap">
@@ -96,3 +93,5 @@ export default function CardContaioner() {
     </>
   );
 }
+
+export default React.memo(CardContaioner);

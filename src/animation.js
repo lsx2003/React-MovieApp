@@ -61,8 +61,7 @@ export const effect = () => {
 
   let cards = gsap.utils.toArray(".wheel__card");
   let header = document.querySelector(".header");
-  let fragment = document.createElement("div");
-  // keep track of last clicked card so we can put it back
+  // let fragment = document.createElement("div");
   let lastClickedCard;
 
   cards.forEach((card) => {
@@ -79,19 +78,6 @@ export const effect = () => {
     putBack(e);
   });
 
-  // function removeContent(e) {
-  //   let image = header.querySelector("img");
-  //   let content = header.querySelector(".content");
-  //   let state = Flip.getState(content);
-
-  //   content.remove();
-  //   Flip.from(state, {
-  //     duration: 0.6,
-  //     ease: "sine.out",
-  //     absolute: true,
-  //   });
-  // }
-
   function putBack(e) {
     let image = header.querySelector("img");
     let state = Flip.getState(image);
@@ -105,17 +91,17 @@ export const effect = () => {
     });
 
     lastClickedCard = null;
-    header.removeChild(fragment);
+    // header.removeChild(fragment);
   }
 
   function flip(e) {
-    fragment.classList.add("content");
+    // fragment.classList.add("content");
 
     let image = e.target.querySelector("img");
 
     let state = Flip.getState(image);
     header.appendChild(image);
-    header.appendChild(fragment);
+    // header.appendChild(fragment);
 
     image.classList.add("select");
     Flip.from(state, {
