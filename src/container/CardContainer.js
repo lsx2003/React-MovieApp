@@ -5,23 +5,26 @@ import Loading from "../component/Loading";
 
 function CardContaioner() {
   const [newData, setData] = useState([[1]]);
-  const [poster, setPoster] = useState({});
+  const [poster] = useState({});
   const [title, setTitle] = useState([]); // 1~10위 제목이 들어감
   const [isLoading, setLoading] = useState(true);
   const [isSelect, setSelect] = useState(false);
 
-  const getPoster = useCallback(async (el, idx) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:4000/naver/?query=${el}}`
-      );
-      const data = await response.data;
-      await Object.assign(poster, { [(idx = idx)]: data[0].image });
-      await setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const getPoster = useCallback(
+    async (el, idx) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/naver/?query=${el}}`
+        );
+        const data = await response.data;
+        await Object.assign(poster, { [idx]: data[0].image });
+        await setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [poster]
+  );
 
   const getData = useCallback(async () => {
     try {
@@ -45,28 +48,30 @@ function CardContaioner() {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [getData]);
 
   useEffect(() => {
     getTitle();
-  }, []);
+  }, [getTitle]);
   title.map((el) => {
-    getPoster(el, title.indexOf(el));
+    return getPoster(el, title.indexOf(el));
   });
   setTimeout(() => {
     setLoading(false);
-  }, 1500);
+  }, 2000);
 
-  const clickHandler = (event) => {
-    if (event.target.className === "wheel__card") {
-      setSelect(true);
-      console.log(isSelect);
-    }
-  };
+  // const clickHandler = (event) => {
+  //   console.log("a");
+  //   if (event.target.className === "wheel__card") {
+  //     setSelect(true);
+  //     console.log("b");
+  //   }
+  // };
 
   return (
     <>
       {isLoading ? <Loading /> : null}
+
       <div className="header"></div>
       <div className="title-wrap">
         <div className="title">오늘의 영화 순위</div>
@@ -79,7 +84,7 @@ function CardContaioner() {
               setSelect={setSelect}
               poster={poster}
               newData={newData}
-              clickHandler={clickHandler}
+              // clickHandler={clickHandler}
             ></Card>
           ) : null}
         </div>
