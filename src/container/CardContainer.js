@@ -9,7 +9,6 @@ function CardContaioner() {
   const [title, setTitle] = useState([]); // 1~10위 제목이 들어감
   const [isLoading, setLoading] = useState(true);
   const [isSelect, setSelect] = useState(false);
-  const hash = new Map();
 
   const getPoster = useCallback(
     async (el, idx) => {
@@ -19,13 +18,6 @@ function CardContaioner() {
         );
         const data = await response.data;
         await Object.assign(poster, { [idx]: data[0].image });
-        // const img = [];
-        // hash.set(data[0].title, data[0].image);
-        // for (let [key, value] of hash) {
-        //   img.push(value);
-        // }
-
-        await setLoading(false);
       } catch (error) {}
     },
     [poster]
@@ -60,7 +52,7 @@ function CardContaioner() {
   });
   setTimeout(() => {
     setLoading(false);
-  }, 1500);
+  }, 2000);
   return (
     <>
       {isLoading ? <Loading /> : null}
