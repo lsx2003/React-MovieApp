@@ -5,49 +5,51 @@ import Loading from "../component/Loading";
 
 function CardContaioner() {
   const [newData, setData] = useState([[1]]);
-  const [poster] = useState({});
+  const [poster] = useState([]);
   const [title, setTitle] = useState([]); // 1~10위 제목이 들어감
   const [isLoading, setLoading] = useState(true);
   const [isSelect, setSelect] = useState(false);
+  const hash = new Map();
 
   const getPoster = useCallback(
     async (el, idx) => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/naver/?query=${el}}`
+          `${process.env.REACT_APP_API_URL}/naver/?query=${el}}`
         );
         const data = await response.data;
         await Object.assign(poster, { [idx]: data[0].image });
+        // const img = [];
+        // hash.set(data[0].title, data[0].image);
+        // for (let [key, value] of hash) {
+        //   img.push(value);
+        // }
+
         await setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [poster]
   );
 
   const getData = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:4000/kobis");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/kobis`
+      );
       const data = await response.data;
-      console.log("getData");
-      console.log(data);
       setData(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, []);
 
   const getTitle = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:4000/kobis/title");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/kobis/title`
+      );
       const data = await response.data;
-      console.log("getTitle");
       getData();
       setTitle(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }, [getData]);
 
   useEffect(() => {
@@ -58,16 +60,7 @@ function CardContaioner() {
   });
   setTimeout(() => {
     setLoading(false);
-  }, 2000);
-
-  // const clickHandler = (event) => {
-  //   console.log("a");
-  //   if (event.target.className === "wheel__card") {
-  //     setSelect(true);
-  //     console.log("b");
-  //   }
-  // };
-
+  }, 1500);
   return (
     <>
       {isLoading ? <Loading /> : null}
@@ -84,7 +77,6 @@ function CardContaioner() {
               setSelect={setSelect}
               poster={poster}
               newData={newData}
-              // clickHandler={clickHandler}
             ></Card>
           ) : null}
         </div>

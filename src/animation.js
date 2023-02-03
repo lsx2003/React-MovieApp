@@ -61,55 +61,51 @@ export const effect = () => {
 
   let cards = gsap.utils.toArray(".wheel__card");
   let header = document.querySelector(".header");
-  // let fragment = document.createElement("div");
   let lastClickedCard;
 
-  cards.forEach((card) => {
-    card.addEventListener("click", (e) => {
-      if (lastClickedCard) {
-        putBack(e);
-      }
-      flip(e);
-    });
-  });
+  // cards.forEach((card) => {
+  //   card.addEventListener("click", (e) => {
+  //     if (lastClickedCard) {
+  //       putBack(e);
+  //     }
+  //     flip(e);
+  //   });
+  // });
 
-  header.addEventListener("click", (e) => {
-    if (!lastClickedCard) return;
-    putBack(e);
-  });
+  // header.addEventListener("click", (e) => {
+  //   if (!lastClickedCard) return;
+  //   putBack(e);
+  // });
 
-  function putBack(e) {
-    let image = header.querySelector("img");
-    let state = Flip.getState(image);
+  // // function putBack(e) {
+  // //   let image = header.querySelector("img");
+  // //   let state = Flip.getState(image);
 
-    lastClickedCard.appendChild(image);
+  // //   lastClickedCard.appendChild(image);
 
-    Flip.from(state, {
-      duration: 0.6,
-      ease: "sine.out",
-      absolute: true,
-    });
+  // //   Flip.from(state, {
+  // //     duration: 0.6,
+  // //     ease: "sine.out",
+  // //     absolute: true,
+  // //   });
 
-    lastClickedCard = null;
-    // header.removeChild(fragment);
-  }
+  // //   lastClickedCard = null;
+  // // }
 
-  function flip(e) {
-    // fragment.classList.add("content");
+  // function flip(e) {
 
-    let image = e.target.querySelector("img");
+  //   let image = e.target.querySelector("img");
 
-    let state = Flip.getState(image);
-    header.appendChild(image);
-    // header.appendChild(fragment);
+  //   let state = Flip.getState(image);
+  //   header.appendChild(image);
 
-    image.classList.add("select");
-    Flip.from(state, {
-      duration: 0.6,
-      ease: "sine.out",
-      absolute: true,
-    });
+  //   image.classList.add("select");
+  //   Flip.from(state, {
+  //     duration: 0.6,
+  //     ease: "sine.out",
+  //     absolute: true,
+  //   });
 
-    lastClickedCard = e.target;
-  }
+  //   lastClickedCard = e.target;
+  // }
 };
