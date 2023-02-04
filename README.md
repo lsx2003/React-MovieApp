@@ -5,7 +5,8 @@
 [AWS 정적 배포] AWS S3 활용하여 버킷에 업로드한 상태 입니다. 아래의 URL을 통해 접근 가능합니다.
 
 - http://lmh-repo-deploy1.s3-website.ap-northeast-2.amazonaws.com/
-  [Synology NAS] 가상 컨테이너(도커)를 활용하여 Express 서버 가동 중 입니다.
+
+[Synology NAS] 가상 컨테이너(도커)를 활용하여 Express 서버 가동 중 입니다.
 
 # React, Express를 활용한 영화 순위 앱
 
