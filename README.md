@@ -10,7 +10,7 @@
 
 # React, Express를 활용한 영화 순위 앱
 
-[Client] React를 활용한
+[Client] React를 활용하여 화면을 구성 했습니다.
 
 - 페이지로 로딩되면 Server로 데이터 fetching을 합니다.
 - 스크롤 조작에 따라 영화 포스터가 이동합니다.
