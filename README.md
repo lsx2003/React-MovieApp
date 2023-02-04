@@ -6,7 +6,7 @@
 
 - http://lmh-repo-deploy1.s3-website.ap-northeast-2.amazonaws.com/
 
-**[Synology NAS]** 가상 컨테이너(도커)를 활용하여 Express 서버 가동 중 입니다.
+**[Synology NAS]** 가상 컨테이너(도커)에서 Express 서버를 가동하고 있습니다.
 
 # React, Express를 활용한 영화 순위 앱
 
@@ -17,12 +17,17 @@
 
 **[Server]** Express를 활용한 API
 
-- Client 요청에 따라 외부 API로 요청을 보내고 응답 받은 데이터를 Client에서 사용할 수 있는 데이터 형태로 변환 후 응답 합니다.
+- Client 요청에 따라 외부 API로 요청을 보내고 응답 받은 데이터를 Client에서 사용할 수 있는 데이터 형태로 변환 후 응답합니다.
 
 **[외부 API]**
 
-- 포스터와 영화 순위를 동시에 제공하는 API가 없어서 API 요청을 두 번 진행해서 처리했습니다.
+- 포스터와 영화 순위를 동시에 제공하는 API가 없어서 두 개의 API를 조합해서 처리했습니다.
 - 네이버 영화 API(포스터 데이터)
 - KOIBS(일일 영화 순위)
+
+**[발생문제]** CORS 에러 해결 및 렌더링 최적화 문제
+
+- 브라우저에서 API로 데이터를 바로 요청할 경우 CORS 에러가 발생하여, Express로 API 서버를 구축한 후 서버에서 외부 API 데이터를 fetching하는 방식으로 문제를 해결했습니다.
+- useCallback hookd과 React.memo를 사용하여 최적화 했습니다. 프로그램이 가벼운 관계로 다른 최적화 방식은 사용하지 않았습니다. 
 
 **[향후 계획]** 검색 기능 및 영화 정보 제공 기능 추가 구현할 계획입니다.
